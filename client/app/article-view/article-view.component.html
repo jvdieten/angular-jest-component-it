@@ -1,0 +1,36 @@
+<p *ngIf="!editMode">
+    <button name="edit" (click)="edit()">Edit</button> &nbsp; 
+    <button name="delete" (click)="delete()">Delete</button> &nbsp; 
+    <button name="cancel" [routerLink]="['/articles']">Cancel</button>
+</p>
+
+<div *ngIf="!editMode">
+<h2>Article's Details</h2>
+
+<article>
+  <h3>Title</h3>
+  <p>{{ article?.title }}</p>
+</article>
+
+<article>
+  <h3>Subject Matter</h3>
+  <p>{{ article?.subjectMatter }}</p>
+</article>
+
+<article>
+  <h3>Author</h3>
+  <p><i>Name</i>: {{ article?.author?.name }}</p>
+  <p><i>Gender</i>: {{ article?.author?.gender }}</p>
+  <p><i>Birthdate</i>: {{ article?.author?.dateOfBirth | date: 'MM/dd/yyyy' }}</p>
+  <p><i>Joined date</i>: {{ article?.author?.joinedDate | date: 'MM/dd/yyyy' }}</p>
+  <p><i>Number of publications</i>: {{ article?.author?.numberOfPublications }}</p>
+  <p><i>Bio</i>: {{ article?.author?.bio }}</p>
+</article>
+
+<article>
+  <h3>Body</h3>
+  <p innerHTML={{article?.body}}>{{article?.body}}</p>
+</article>
+</div>
+
+<app-article-edit *ngIf="editMode" [article]="article" (action)="onAction($event)"></app-article-edit>

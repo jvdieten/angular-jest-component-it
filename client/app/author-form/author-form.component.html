@@ -1,0 +1,76 @@
+<form ngNativeValidate name="authorForm" id="authorForm">
+  <p>
+    <button (click)="previous()">Previous</button> &nbsp;
+    <input type="submit" (click)="save()" />
+  </p>
+  <p>
+    <i><u>Author's info:</u></i
+    ><br />
+    <label class="required" for="authorName">Name:</label><br />
+    <input
+      class="name"
+      type="text"
+      id="authorName"
+      name="authorName"
+      [(ngModel)]="authorName"
+      required
+    />
+  </p>
+  <p>
+    <input
+      type="radio"
+      id="male"
+      name="gender"
+      [(ngModel)]="gender"
+      value="male"
+    />
+    <label for="male">Male</label><br />
+    <input
+      type="radio"
+      id="female"
+      name="gender"
+      [(ngModel)]="gender"
+      value="female"
+    />
+    <label for="female">Female</label><br />
+    <input
+      type="radio"
+      id="other"
+      name="gender"
+      [(ngModel)]="gender"
+      value="other"
+    />
+    <label for="other">Other</label>
+  </p>
+  <p>
+    <label class="required" for="birthday">Birthday:</label><br />
+    <input
+      class="birthday"
+      type="date"
+      id="birthday"
+      name="birthday"
+      [(ngModel)]="dateOfBirth"
+      required
+    />
+  </p>
+  <p>
+    <label for="numberOfPublications">Number of publications:</label><br />
+    <input
+      type="Number"
+      id="numberOfPublications"
+      name="numberOfPublications"
+      [(ngModel)]="numberOfPublications"
+    />
+  </p>
+  <p>
+    <label for="bio">Bio:</label><br />
+    <textarea
+      id="bio"
+      class="bio"
+      name="bio"
+      [(ngModel)]="bio"
+      rows="6"
+      cols="50"
+    ></textarea>
+  </p>
+</form>

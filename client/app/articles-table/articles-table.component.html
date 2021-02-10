@@ -1,0 +1,19 @@
+<table id="articles" align="center" border="1">
+  <tr>
+    <th>Title</th>
+    <th>Subject Matter</th>
+    <th>Author</th>
+    <th>Created Date</th>
+    <th>Updated Date</th>
+  </tr>
+  <tr
+    *ngFor="let article of articles"
+    [routerLink]="['/article/view', article.id]"
+  >
+    <td>{{ article.title }}</td>
+    <td>{{ article.subjectMatter }}</td>
+    <td>{{ article.author.name }}</td>
+    <td>{{ article.createdDate | date: "MM/dd/yyyy" }}</td>
+    <td>{{ article.updatedDate | date: "MM/dd/yyyy" }}</td>
+  </tr>
+</table>

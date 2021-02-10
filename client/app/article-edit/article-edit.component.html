@@ -1,0 +1,42 @@
+<form
+  ngNativeValidate
+  name="articleForm"
+  id="articleForm"
+  *ngIf="!showAuthorForm"
+>
+  <p>
+    <input id="next" type="submit" (click)="next()" value="Next" /> &nbsp;
+    <button id="cancel" name="cancel" (click)="cancel()">Cancel</button>
+  </p>
+
+  <i><u>Article's details:</u></i
+  ><br />
+  <label class="required" for="title">Title:</label><br />
+  <input class="title" type="text" id="title" [(ngModel)]="title" name="title" required />
+  <p>
+    <label class="required" for="subjectMatter">Subject matter:</label><br />
+    <input
+      type="text"
+      id="subjectMatter"
+      name="subjectMatter"
+      class="subjectMatter"
+      [(ngModel)]="subjectMatter"
+      required
+    />
+  </p>
+  <label for="body">Body:</label>
+  <quill-editor
+    id="body"
+    name="body"
+    [(ngModel)]="body"
+    placeholder="write your article here..."
+  >
+  </quill-editor>
+</form>
+
+<app-author-form
+  *ngIf="showAuthorForm"
+  [article]="article"
+  (emittedAuthor)="submittedAuthor($event)"
+  (canceled)="showAuthorForm = false"
+></app-author-form>
