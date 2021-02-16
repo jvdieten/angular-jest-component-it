@@ -164,7 +164,7 @@ In some cases absolutely necessary, but with better design stubs should be enoug
 *Mocks vs stubs*  
 *Mock* objects are used to define *expectations* i.e: In this scenario I expect method A() to be called with such and such parameters.Mocks record and verify such expectations.
 *Stubs*, on the other hand have a different purpose: they do not record or verify expectations, but rather allow us to *“replace”* the behavior, state of the “fake” object in order to utilize a test scenario.
-8. **Avoud logic in tests**  
+8. **Avoid logic in tests**  
 **:(**
 ```javascript
 it('should properly sanitize strings', () => {
