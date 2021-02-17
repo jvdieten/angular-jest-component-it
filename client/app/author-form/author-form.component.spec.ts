@@ -49,19 +49,49 @@ describe('AuthorFormComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should assign title, subjectMatter, and body the correct values', () => {
+
+
+    beforeEach(() => {
       spectator.component.article = {
         author: mockAuthor
       } as any;
+    });
+
+    it('should assign authorName the correct value', () => {
 
       spectator.component.ngOnInit();
 
       expect(spectator.component.authorName).toEqual(mockAuthor.name);
+    });
+
+    it('should assign gender the correct value', () => {
+
+      spectator.component.ngOnInit();
+
       expect(spectator.component.gender).toEqual(mockAuthor.gender);
+    });
+
+    it('should assign numberOfPublications the correct value', () => {
+
+      spectator.component.ngOnInit();
+
       expect(spectator.component.numberOfPublications).toEqual(mockAuthor.numberOfPublications);
+    });
+
+    it('should assign bio the correct value', () => {
+
+      spectator.component.ngOnInit();
+
       expect(spectator.component.bio).toEqual(mockAuthor.bio);
+    });
+
+    it('should assign dateOfBirth the correct value', () => {
+
+      spectator.component.ngOnInit();
+
       expect(spectator.component.dateOfBirth).toEqual(mockAuthor.dateOfBirth);
     });
+
   });
 
   describe('save', () => {

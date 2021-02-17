@@ -1,0 +1,18 @@
+[
+  {
+  "id": "dd00f635-9e40-4416-a134-2fbd2def1dde",
+  "title": "The Great Gatsby",
+  "subjectMatter": "English literature",
+  "body": "This article is about the great gatsby",
+  "author": {
+    "id": "1",
+    "name": "F. Scott Fitzgerald",
+    "gender": "male",
+    "bio": "good",
+    "numberOfPublications": 10,
+    "dateOfBirth": "1980-04-11",
+    "joinedDate": "2019-01-09"
+  },
+  "createdDate": "1995-09-17"
+  }
+]

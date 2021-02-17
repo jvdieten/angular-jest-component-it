@@ -20,5 +20,6 @@ module.exports = {
   ...jestPreset,
   globals: { ...globalOverrides },
   preset: 'jest-preset-angular',
-  setupFilesAfterEnv: ['<rootDir>/client/setup-jest.ts']
+  setupFilesAfterEnv: ['<rootDir>/client/setup-jest.ts'],
+  testMatch: [ "**/?(*.)+(spec|test).[jt]s?(x)" ]
 };

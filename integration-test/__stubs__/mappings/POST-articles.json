@@ -1,0 +1,9 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/articles"
+  },
+  "response": {
+    "status": 200
+  }
+}

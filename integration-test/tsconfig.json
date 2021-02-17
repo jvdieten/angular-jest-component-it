@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "types": ["node", "jest", "webdriverio", "@wdio/sync", "node-fetch", "wdio-wiremock-service"]
+  }
+}
