@@ -234,7 +234,7 @@ Remember that your tests can be the live documentation of your code.
 An example can be found [here](client/app/article-edit/article-edit.component.spec.ts). In this file unit test / shallow tests and angular integration tests are
 demonstrated with usage of spectator.
 
-Please try if you can add an integration test in the author-form.component section.
+Please try if you can add the missing tests in the author-form.component section.
 
 </details>
 
