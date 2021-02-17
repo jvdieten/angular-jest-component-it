@@ -7,7 +7,6 @@ import { createHostFactory, mockProvider, Spectator } from '@ngneat/spectator';
 import { AuthorFormComponent } from './author-form.component';
 import { Author } from '../models/author';
 import { Gender } from '../models/gender';
-import { AuthorFormHarness } from './author-form.harness';
 
 const mockAuthor = {
   name: 'John Doe',
@@ -48,60 +47,8 @@ describe('AuthorFormComponent', () => {
     expect(spectator.query('form').getAttribute('name')).toEqual('authorForm');
   });
 
-  describe('ngOnInit', () => {
-    it('should assign title, subjectMatter, and body the correct values', () => {
-      spectator.component.article = {
-        author: mockAuthor
-      } as any;
-
-      spectator.component.ngOnInit();
-
-      expect(spectator.component.authorName).toEqual(mockAuthor.name);
-      expect(spectator.component.gender).toEqual(mockAuthor.gender);
-      expect(spectator.component.numberOfPublications).toEqual(mockAuthor.numberOfPublications);
-      expect(spectator.component.bio).toEqual(mockAuthor.bio);
-      expect(spectator.component.dateOfBirth).toEqual(mockAuthor.dateOfBirth);
-    });
-  });
-
-  describe('save', () => {
-    it('should emit author when form is valid', async () => {
-      spectator.detectChanges();
-      const authorEmitSpy = jest.spyOn(spectator.component.emittedAuthor, 'emit');
-      const authorFormHarness = await loader.getHarness(AuthorFormHarness);
-
-      spectator.component.bio = mockAuthor.bio;
-      spectator.component.dateOfBirth = mockAuthor.dateOfBirth;
-      spectator.component.joinedDate = mockAuthor.joinedDate;
-      spectator.component.numberOfPublications = mockAuthor.numberOfPublications;
-
-      await authorFormHarness.setName(mockAuthor.name);
-      spectator.fixture.debugElement.nativeElement.querySelector('#birthday').value = '1980-04-11';
-
-      spectator.component.save();
-
-      expect(authorEmitSpy).toHaveBeenCalledWith(mockAuthor);
-    });
-
-    it('should not emit author when form is invalid', () => {
-      const authorEmitSpy = spyOn(spectator.component.emittedAuthor, 'emit');
-
-      spectator.fixture.debugElement.nativeElement.querySelector('#authorName').value = '';
-      spectator.fixture.debugElement.nativeElement.querySelector('#birthday').value = '';
-
-      spectator.component.save();
-
-      expect(authorEmitSpy).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('previous', () => {
-    it('should emit true value', () => {
-      const canceledEmitSpy = spyOn(spectator.component.canceled, 'emit');
-
-      spectator.component.previous();
-
-      expect(canceledEmitSpy).toHaveBeenCalledWith(true);
-    });
-  });
+  // 30 MINUTES TIME DOESN'T MATTER IF YOU DON'T FINISH THE SKELETON IS ALSO FINE.
+  // WRITE THE MISSING TESTS USE SPECTATOR WITH THE TESTING GUIDELINES IN YOUR MIND
+  // ALL THE SETUP IS DONE FOR YOU
+  // BONUS IS TO MAKE USE OF THE AUTHOR-FORM HARNESS SEE README SECTION 4
 });
