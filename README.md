@@ -206,9 +206,8 @@ it('should sanitize a filename containing more than one dot', () => {
 ```
 9. **Don't write unnecessary expectations**  
 Remember, unit tests are a design specification of how a certain behaviour should work, not a list of observations of everything the code happens to do.
-10. **Cover the general case and the edge cases**
-"Strange behaviour" usually happens at the edges... 
-Remember that your tests can be the live documentation of your code.
+10. **Don't test to deep!**
+i.e if you test presentation components in your container components you should be aware the components are generic and probably used in more container components. You should cover this in integration tests. 
 
 </details>
 
@@ -240,7 +239,24 @@ Please try if you can add the missing tests in the author-form.component section
 
 <br>
 
-## 3) Troubleshooting
+## 3) How deep should we test
+<details>
+  <summary>Details</summary>
+<br>
+We can always test the rendering and event handling of inner components in deep tests for container components. However, that is necessary if we are not writing any shallow tests for those inner components. Assuming we write shallow tests for all component, unit tests for store reducers, selectors and effects, writing deep tests for container components to just test the interactions is reasonable.
+
+Let us consider we don't have a shallow test for a presentation component called <Contact-Presentation>, and we don't need writing one as it is not going to be used anywhere other than <Details-Container> component.
+
+Its more maintainable to test DOM rendering and event handling of <Contact-Presentation/>in its own spec and not have the same tests in the <Details-Container/>
+
+Presentation components are re-usable and may be used by many other components. It is a maintenance overhead when the same component for same cases gets tested in many different places.
+
+If you are concerned about how the whole component tree renders, integration tests are a better solution than complicating our deep tests for containers.
+
+</details>
+<br>
+
+## 4) Troubleshooting
 <details>
   <summary>Details</summary>
 
@@ -258,7 +274,7 @@ You can also debug your tests by adding breakpoints to the code, e.g. running Ja
 
 <br>
 
-## 4) ComponentHarness
+## 5) ComponentHarness
 <details>
   <summary>Details</summary>
 
