@@ -207,7 +207,7 @@ it('should sanitize a filename containing more than one dot', () => {
 9. **Don't write unnecessary expectations**  
 Remember, unit tests are a design specification of how a certain behaviour should work, not a list of observations of everything the code happens to do.
 10. **Don't test to deep!**
-i.e if your test presentation(dumb) components in your container(smart) components you should be aware the components are generic and probably used in more container components. I always prefer shallow tests for presentation components.
+If you test presentation(dumb) components in your container(smart) components you should be aware the presentation components can be generic and probably used in more container or presentation components. I always prefer shallow tests for every presentation component to verify UI.
 </details>
 
 <br>
