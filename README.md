@@ -59,7 +59,7 @@ npm run test:watch
 
 <br>
 
-### Unit Testing Best Practices
+### Angular Testing Best Practices
 
 1. **Always Write Isolated Test Cases**  
 The order of execution has to be independent between test cases.
