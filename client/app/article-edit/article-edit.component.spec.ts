@@ -24,13 +24,30 @@ const mockDatePipe = {
 
 // UNIT test example
 describe('ArticleEditComponent Tests: As a class', () => {
+
   let articleEditComponent: ArticleEditComponent;
 
-  beforeEach(() => {
-    articleEditComponent = new ArticleEditComponent(null, null);
-    articleEditComponent.article = {} as Article;
+  const dataServiceMock = {
+    addArticle: jest.fn((article) => of({})),
+    updateArticle: jest.fn((article) => of({})),
+    getArticle: jest.fn(),
+    getArticles: jest.fn(),
+    deleteArticle: jest.fn()
+  };
 
+  const routerMock = {
+    navigate: jest.fn(),
+  };
+
+  beforeEach(() => {
+    articleEditComponent = new ArticleEditComponent(routerMock as any, dataServiceMock as any);
+    articleEditComponent.article = {} as Article;
   });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('when ngOnint', () => {
 
     it('should return title when the article title is set', () => {
@@ -57,6 +74,15 @@ describe('ArticleEditComponent Tests: As a class', () => {
 
   });
 
+  describe('submittedAuthor', () => {
+    it('should invoke update author', () => {
+
+      articleEditComponent.submittedAuthor(null);
+
+      expect(dataServiceMock.addArticle).toHaveBeenCalledTimes(1);
+
+    });
+  });
 });
 
 // SHALLOW tests
@@ -83,6 +109,7 @@ describe('ArticleEditComponent Tests: As an independent component', () => {
   });
 
   describe('cancel method', () => {
+
     it('should navigate to the Articles page when attempting to create a new article', () => {
       // ARRANGE
       const routerSpy = spectator.inject(Router, true);
@@ -102,6 +129,7 @@ describe('ArticleEditComponent Tests: As an independent component', () => {
 
       expect(actionEmitSpy).toHaveBeenCalledWith('cancel');
     });
+
   });
 
   describe('next method', () => {
@@ -127,29 +155,29 @@ describe('ArticleEditComponent Tests: As an independent component', () => {
 
   describe('submittedAuthor', () => {
 
-      let routerSpy;
-      const author = {
-        id: 'someId'
+    let routerSpy;
+    const author = {
+      id: 'someId'
+    } as any;
+    const article = {
+      id: 'someId',
+      title: 'Test Spectator',
+      subjectMatter: 'unit tests',
+      body: 'some content',
+      author
+    };
+
+    beforeEach(() => {
+      spectator.component.article = {
+        id: article.id
       } as any;
-      const article = {
-        id: 'someId',
-        title: 'Test Spectator',
-        subjectMatter: 'unit tests',
-        body: 'some content',
-        author
-      };
+      routerSpy = spectator.inject(Router, true);
 
-      beforeEach(() => {
-        spectator.component.article = {
-          id: article.id
-        } as any;
-        routerSpy = spectator.inject(Router, true);
-
-        spectator.component.title = article.title;
-        spectator.component.subjectMatter = article.subjectMatter;
-        spectator.component.body = article.body;
-      });
-      it('should call updateArticle with the correct param when updating an exsting article', () => {
+      spectator.component.title = article.title;
+      spectator.component.subjectMatter = article.subjectMatter;
+      spectator.component.body = article.body;
+    });
+    it('should call updateArticle with the correct param when updating an exsting article', () => {
 
       spectator.component.submittedAuthor(author);
 
@@ -158,7 +186,7 @@ describe('ArticleEditComponent Tests: As an independent component', () => {
       expect(updateArticleSpy).toHaveBeenCalledWith(article);
     });
 
-      it('should navigate to articles after updating an exsting article', () => {
+    it('should navigate to articles after updating an exsting article', () => {
 
       spectator.component.submittedAuthor(author);
       expect(routerSpy.navigate).toHaveBeenCalledWith(['/articles']);
@@ -188,45 +216,45 @@ describe('ArticleEditComponent Tests: integration test', () => {
   });
 
   it('should call addArticle with the correct data when creating a new article', async () => {
-      const routerSpy = spectator.inject(Router, true);
-      const author: Author = {
-        name: 'authorName',
-        bio: 'bio',
-        dateOfBirth: new Date('2000-02-09').toISOString().split('T')[0] as any,
-        gender: Gender.MALE,
-        numberOfPublications: 0,
-        joinedDate: new Date().toISOString().split('T')[0]
-      };
-      const article: Article = {
-        title: 'title',
-        subjectMatter: 'subject',
-        body: '',
-        author
-      };
+    const routerSpy = spectator.inject(Router, true);
+    const author: Author = {
+      name: 'authorName',
+      bio: 'bio',
+      dateOfBirth: new Date('2000-02-09').toISOString().split('T')[0] as any,
+      gender: Gender.MALE,
+      numberOfPublications: 0,
+      joinedDate: new Date().toISOString().split('T')[0]
+    };
+    const article: Article = {
+      title: 'title',
+      subjectMatter: 'subject',
+      body: '',
+      author
+    };
 
-      const titleInput = spectator.query('#title');
-      const subjectInput = spectator.query('#subjectMatter');
-      const nextBtn = spectator.query('#next');
+    const titleInput = spectator.query('#title');
+    const subjectInput = spectator.query('#subjectMatter');
+    const nextBtn = spectator.query('#next');
 
-      spectator.typeInElement(article.title, titleInput);
-      spectator.typeInElement(article.subjectMatter, subjectInput);
-      spectator.click(nextBtn);
+    spectator.typeInElement(article.title, titleInput);
+    spectator.typeInElement(article.subjectMatter, subjectInput);
+    spectator.click(nextBtn);
 
-      await spectator.fixture.whenStable();
-      const nameInputEl = spectator.query('#authorName');
-      const birthDayInputEl = spectator.query('#birthday');
-      const bioInputEl = spectator.query('#bio');
-      const submitBtn = spectator.query('input[type="submit"]');
+    await spectator.fixture.whenStable();
+    const nameInputEl = spectator.query('#authorName');
+    const birthDayInputEl = spectator.query('#birthday');
+    const bioInputEl = spectator.query('#bio');
+    const submitBtn = spectator.query('input[type="submit"]');
 
-      spectator.typeInElement(author.name, nameInputEl);
-      spectator.typeInElement(author.dateOfBirth.toString(), birthDayInputEl);
-      spectator.typeInElement(author.bio, bioInputEl);
+    spectator.typeInElement(author.name, nameInputEl);
+    spectator.typeInElement(author.dateOfBirth.toString(), birthDayInputEl);
+    spectator.typeInElement(author.bio, bioInputEl);
 
-      spectator.click(submitBtn);
+    spectator.click(submitBtn);
 
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/articles']);
-      expect(addArticleSpy).toHaveBeenCalledWith(article);
-    });
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['/articles']);
+    expect(addArticleSpy).toHaveBeenCalledWith(article);
+  });
 
 
 });
