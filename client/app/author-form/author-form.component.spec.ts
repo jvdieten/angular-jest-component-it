@@ -14,7 +14,7 @@ const mockAuthor = {
   gender: Gender.MALE,
   numberOfPublications: 5,
   bio: 'I am passionate about writing fiction articles',
-  dateOfBirth: new Date('1980-04-11'),
+  dateOfBirth: new Date('2000-02-09').toISOString().split('T')[0] as any,
   joinedDate: '2019-10-16'
 } as Author;
 
@@ -22,7 +22,51 @@ const mockDatePipe = {
   transform: (value: any) => new Date('1980-04-11')
 };
 
-describe('AuthorFormComponent', () => {
+describe('unit test', () => {
+  describe('ngOnInit', () => {
+
+    describe('ngOnInit', () => {
+      let authorComponent: AuthorFormComponent;
+
+      beforeEach(() => {
+        authorComponent = new AuthorFormComponent(mockDatePipe as any);
+        authorComponent.article = {
+          author: mockAuthor
+        } as any;
+      });
+
+      it('should assign authorName the correct value', () => {
+
+        authorComponent.ngOnInit();
+
+        expect(authorComponent.authorName).toEqual(mockAuthor.name);
+      });
+
+      it('should assign gender the correct value', () => {
+
+        authorComponent.ngOnInit();
+
+        expect(authorComponent.gender).toEqual(mockAuthor.gender);
+      });
+
+      it('should assign numberOfPublications the correct value', () => {
+
+        authorComponent.ngOnInit();
+
+        expect(authorComponent.numberOfPublications).toEqual(mockAuthor.numberOfPublications);
+      });
+
+      it('should assign bio the correct value', () => {
+
+        authorComponent.ngOnInit();
+
+        expect(authorComponent.bio).toEqual(mockAuthor.bio);
+      });
+    });
+  });
+});
+
+describe('template shallow test', () => {
   let spectator: Spectator<AuthorFormComponent>;
   const createComponent = createHostFactory({
     component: AuthorFormComponent,
@@ -33,8 +77,6 @@ describe('AuthorFormComponent', () => {
   });
 
   let loader: HarnessLoader;
-
-  const datePipeSpy = jest.spyOn(mockDatePipe, 'transform');
 
   beforeEach(() => {
     spectator = createComponent('<app-author-form></app-author-form>');
@@ -48,78 +90,36 @@ describe('AuthorFormComponent', () => {
     expect(spectator.query('form').getAttribute('name')).toEqual('authorForm');
   });
 
-  describe('ngOnInit', () => {
-
-
-    beforeEach(() => {
-      spectator.component.article = {
-        author: mockAuthor
-      } as any;
-    });
-
-    it('should assign authorName the correct value', () => {
-
-      spectator.component.ngOnInit();
-
-      expect(spectator.component.authorName).toEqual(mockAuthor.name);
-    });
-
-    it('should assign gender the correct value', () => {
-
-      spectator.component.ngOnInit();
-
-      expect(spectator.component.gender).toEqual(mockAuthor.gender);
-    });
-
-    it('should assign numberOfPublications the correct value', () => {
-
-      spectator.component.ngOnInit();
-
-      expect(spectator.component.numberOfPublications).toEqual(mockAuthor.numberOfPublications);
-    });
-
-    it('should assign bio the correct value', () => {
-
-      spectator.component.ngOnInit();
-
-      expect(spectator.component.bio).toEqual(mockAuthor.bio);
-    });
-
-    it('should assign dateOfBirth the correct value', () => {
-
-      spectator.component.ngOnInit();
-
-      expect(spectator.component.dateOfBirth).toEqual(mockAuthor.dateOfBirth);
-    });
-
-  });
-
-  describe('save', () => {
+  describe('on save', () => {
     it('should emit author when form is valid', async () => {
       spectator.detectChanges();
       const authorEmitSpy = jest.spyOn(spectator.component.emittedAuthor, 'emit');
       const authorFormHarness = await loader.getHarness(AuthorFormHarness);
 
-      spectator.component.bio = mockAuthor.bio;
-      spectator.component.dateOfBirth = mockAuthor.dateOfBirth;
       spectator.component.joinedDate = mockAuthor.joinedDate;
       spectator.component.numberOfPublications = mockAuthor.numberOfPublications;
 
       await authorFormHarness.setName(mockAuthor.name);
       spectator.fixture.debugElement.nativeElement.querySelector('#birthday').value = '1980-04-11';
+      const nameInputEl = spectator.query('#authorName');
+      const birthDayInputEl = spectator.query('#birthday');
+      const bioInputEl = spectator.query('#bio');
+      const submitBtn = spectator.query('input[type="submit"]');
 
-      spectator.component.save();
+      spectator.typeInElement(mockAuthor.name, nameInputEl);
+      spectator.typeInElement(mockAuthor.dateOfBirth.toString(), birthDayInputEl);
+      spectator.typeInElement(mockAuthor.bio, bioInputEl);
+
+      spectator.click(submitBtn);
 
       expect(authorEmitSpy).toHaveBeenCalledWith(mockAuthor);
     });
 
     it('should not emit author when form is invalid', () => {
       const authorEmitSpy = spyOn(spectator.component.emittedAuthor, 'emit');
+      const submitBtn = spectator.query('input[type="submit"]');
 
-      spectator.fixture.debugElement.nativeElement.querySelector('#authorName').value = '';
-      spectator.fixture.debugElement.nativeElement.querySelector('#birthday').value = '';
-
-      spectator.component.save();
+      spectator.click(submitBtn);
 
       expect(authorEmitSpy).not.toHaveBeenCalled();
     });
@@ -129,7 +129,9 @@ describe('AuthorFormComponent', () => {
     it('should emit true value', () => {
       const canceledEmitSpy = spyOn(spectator.component.canceled, 'emit');
 
-      spectator.component.previous();
+      const previousBtn = spectator.query('button');
+
+      spectator.click(previousBtn);
 
       expect(canceledEmitSpy).toHaveBeenCalledWith(true);
     });

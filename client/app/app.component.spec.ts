@@ -70,6 +70,18 @@ describe('AppComponent', () => {
 
       expect(spectator.component.showWriteArticleBtn).toBe(false);
     });
+
+    it('should set showWriteArticleBtn to true when url is undefined', () => {
+      const mockRouterSomeUrl = {
+        events: of({ url: undefined })
+      };
+      spectator = createComponent({ detectChanges: false, providers: [mockProvider(Router, mockRouterSomeUrl)] });
+      spectator.component.showWriteArticleBtn = true;
+
+      spectator.component.ngOnInit();
+
+      expect(spectator.component.showWriteArticleBtn).toBe(true);
+    });
   });
 
 });
